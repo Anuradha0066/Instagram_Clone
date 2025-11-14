@@ -1,40 +1,140 @@
-import React from 'react'
-import { Link } from 'react-router-dom'
+import React, { useState } from "react";
+import axios from "axios";
+import { Link, useNavigate } from "react-router-dom";
 
 const Login = () => {
-  return (
-    <div className='h-screen bg-black'>
-      <h1 className='text-white italic text-[50px] pl-[610px] pb-15 pt-25 font-bold font-[cursive]'>
-        Instagram
-      </h1>
+  const [formData, setFormData] = useState({ email: "", passWord: "" });
+  const navigate = useNavigate();
 
-      <div className='flex flex-col items-center justify-center gap-4'>
-        <input className='text-white border-white' placeholder="Phone number, username, or email" />
-        <input className='text-white' placeholder='Password' />
-        <button className='text-white bg-blue-500 hover:bg-blue-600 cursor-pointer w-40'>Log in</button>
+  const handleChange = (e) =>
+    setFormData({ ...formData, [e.target.name]: e.target.value });
 
-        <div className='flex items-center gap-2'>
-          <div className='flex-grow h-px w-24 bg-white'></div>
-          <p className='text-white'>OR</p>
-          <div className='flex-grow h-px w-24 bg-white'></div>
-        </div> 
+  // const handleSubmit = async (e) => {
+  //   e.preventDefault();
+  //   const res = await axios.post("http://localhost:4000/login", formData);
+  //   const loginData = res.data;
+  //   console.log(res.data,"heyyyy")
+  //   const storedData = JSON.parse(localStorage.getItem("user"));
 
-        <div className='flex gap-2'>
-          <img className='h-8 w-8' src='https://cdn-icons-png.flaticon.com/128/5968/5968764.png' alt="fb-icon" />
-          <a className='text-blue-500 cursor-pointer'>Log in with Facebook</a>
-        </div>
+  const handleSubmit = async (e) => {
+  e.preventDefault();
+  try {
+    const res = await axios.post("http://localhost:4001/login", formData);
+    if (res.data.token) {
+      localStorage.setItem("token", res.data.token);
+      alert("Login successful!");
+      navigate("/home");
+    } else {
+      alert(res.data.msg || "Login failed!");
+    }
+  } catch (err) {
+    console.error(err);
+    alert("Login error!");
+  }
 
-        <a href='' className='text-white pb-11'>Forget password?</a>
 
-        <div>
-          <p className='text-white'>
-            Don't have an account?
-            <Link to="/signup" className='text-blue-700'> SignUp</Link>
+// if (!storedData) {
+//   alert("No user found in localStorage — please sign up first.");
+//   navigate("/SignUp");
+//   return;
+// }
+
+
+
+    if (
+      loginData.email == storedData.email &&
+      loginData.passWord == storedData.passWord
+    ) {
+      navigate("/home");
+    } else {
+      navigate("/signUp");
+    }
+  };
+return (
+    <div className="flex flex-col md:flex-row items-center justify-center h-screen bg-black text-white ">
+  
+      <div className="flex flex-col items-center justify-center w-full md:w-[400px]  h-100">
+        <h1 className="text-6xl h-40 bg-gradient-to-r from-[#f58529] via-[#dd2a7b] to-[#833ab4] 
+        bg-clip-text text-transparent select-none">
+          Instagram
+        </h1>
+
+ <form
+          onSubmit={handleSubmit}
+          className="bg-zinc-900 p-8 rounded-xl w-full max-w-sm border border-zinc-700"
+        >
+          <input
+            type="email"
+            name="email"
+            placeholder="Phone number, username, or email"
+            value={formData.email}
+            onChange={handleChange}
+            className="w-full mb-3 p-3 rounded-md bg-zinc-800 border border-zinc-600
+             focus:outline-none focus:ring-1 focus:ring-[#405de6] placeholder-gray-400"
+          
+          required
+          />
+<br/>
+
+          <input
+            type="password"
+            name="passWord"
+            placeholder="Password"
+            value={formData.passWord}
+            onChange={handleChange}
+            className="w-full mb-4 p-3 rounded-md bg-zinc-800 border border-zinc-600
+             focus:outline-none focus:ring-1 focus:ring-[#405de6] placeholder-gray-400"
+         required
+         />
+
+<br/>
+          <button
+            type="submit"
+            className="w-full bg-[#405de6] py-2 rounded-md font-semibold hover:bg-[#2d4cc9] transition-all h-10"
+          >
+            Log In
+          </button>
+
+          <div className="flex items-center justify-between my-4">
+            <span className="w-1/3 h-[1px] bg-zinc-600"></span>
+            <br/>
+                        <span className="text-xs text-gray-400">OR</span>
+            <span className="w-1/3 h-[1px] bg-zinc-600"></span>
+          </div>
+          <br/>
+
+          <button
+            type="button"
+            className="flex items-center justify-center gap-2 w-full text-[#1877f2] font-semibold hover:underline"
+          >
+                       
+                                   
+           <h1  className="text-bold text-blue-900 font-bold text-lg bg-blue-600 h-[px] w-[20px]">f</h1>
+            Log in with Facebook
+          </button>
+
+          <p className="text-sm text-gray-400 text-center mt-4">
+            Forgotten your password?{" "}
+            <span
+              className="text-[#1877f2] hover:underline cursor-pointer"
+              onClick={() => navigate("/forget")}
+            >
+              Click here
+            </span>
+          </p>
+        </form>
+
+        <div className="bg-zinc-900 border border-zinc-700 p-4 rounded-md w-full text-center">
+          <p className="text-gray-300 text-sm">
+            Don’t have an account?{" "}
+            <Link to="/SignUp" className="text-[#405de6] hover:underline">
+              Sign up
+            </Link>
           </p>
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default Login
+export default Login;

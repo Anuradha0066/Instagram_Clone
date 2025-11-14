@@ -1,40 +1,141 @@
-import React from 'react'
-import { Link } from 'react-router-dom'
+import React, { useState } from "react";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const SignUp = () => {
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    passWord: "",
+  });
+
+  const navigate = useNavigate();
+
+  const handleForm = (e) => {
+    const { name, value } = e.target;
+    setFormData({
+      ...formData,
+      [name]: value,
+    });
+  };
+
+//   const handleSubmit = async (e) => {
+//     e.preventDefault();
+
+//     try {
+//       const res = await axios.post("http://localhost:4000/api/signUp", formData);
+
+//       localStorage.setItem("user", JSON.stringify(res.data));
+// console.log(res.data)
+//       alert(res.data.msg || "Registration successful!");
+//       navigate("/");
+//     } catch (err) {
+//       console.error("Error:", err);
+//       alert("Something went wrong!");
+//     }
+//   };
+
+const handleSubmit = async (e) => {
+  e.preventDefault();
+  try {
+    const res = await axios.post("http://localhost:4001/api/signUp", formData);
+    alert(res.data.msg);
+    navigate("/");
+  } catch (err) {
+    console.error(err);
+    alert("Signup failed!");
+  }
+};
+
+
   return (
-    <div>
-      <form className='h-screen bg-black flex flex-col items-center  '>
-<fieldset className="text-white border-1 border-gray-500 h-[49rem] w-96 mt-8 flex flex-col items-center gap-4  ">
- 
- <h1 className='text-white italic text-[50px]  font-bold font-[cursive]'>
-        Instagram
-      </h1>
-      <p className='text-white text-[20px] font-[cursive]'>Sign up to see photos and videos from your friends.</p>
-      <button className='bg-blue-500 text-white font-bold w-80 h-10 rounded-lg cursor-pointer'>Log in with Facebook</button>
-      <div className='flex items-center w-80 gap-2'>
-      <hr className='w-32 border-gray-500'/>
-      <p className='text-white text-[14px] font-[cursive]'>OR</p>
-      <hr className='w-32 border-gray-500'/>    
-</div>
-      <input className='bg-gray-800 text-white w-80 h-10 rounded-lg pl-2' type="text" placeholder='Mobile Number or Email'/>
-      <input className='bg-gray-800 text-white w-80 h-10 rounded-lg pl-2' type="text" placeholder='Full Name'/>
-      <input className='bg-gray-800 text-white w-80 h-10 rounded-lg pl-2' type="text" placeholder='Username'/>
-      <input className='bg-gray-800 text-white w-80 h-10 rounded-lg pl-2' type="password" placeholder='Password'/>
-      <p className='text-white text-[12px] w-80 text-center'> People who use our service may have uploaded your contact information to Instagram. <span className='text-blue-500'>Learn More</span></p>
-      <p className='text-white text-[12px] w-80 text-center'> By signing up, you agree to our <span className='text-blue-500 cursor-pointer'>Terms</span>, <span className='text-blue-500 cursor-pointer'>Privacy Policy</span> and <span className='text-blue-500 cursor-pointer'>Cookies Policy</span>.</p>
-      <button className='bg-blue-500 text-white font-bold w-80 h-10 rounded-lg cursor-pointer'>Sign Up</button>    
+    <div className="flex flex-col md:flex-row items-center justify-center min-h-screen bg-black text-white">
+      {/* Instagram Logo / Header */}
+      <div className="flex flex-col items-center justify-center w-full md:w-[400px] p-6">
+        <h1 className="text-6xl font-bold h-40 bg-gradient-to-r from-[#f58529] via-[#dd2a7b] to-[#833ab4] 
+        bg-clip-text text-transparent select-none">
+          Instagram
+        </h1>
 
-        </fieldset >
+        {/* Sign Up Form */}
+        <form
+          onSubmit={handleSubmit}
+          className="bg-zinc-900 p-8 rounded-xl w-full max-w-sm border border-zinc-700"
+        >
+          <p className="text-gray-400 text-center mb-4">
+            Sign up to see photos and videos from your friends.
+          </p>
 
-        <fieldset className='text-white border-1 border-gray-500 h-20 w-96 mt-3 mb-2 flex items-center justify-center gap-2 '>
-          <p className='text-white text-[14px]'>Have an account?</p>
-          <Link to='/login'>
-          <button className='text-blue-500 font-bold cursor-pointer'>Log in</button></Link>
-          </fieldset>
-      </form> 
+          <input
+            type="text"
+            name="name"
+            placeholder="Full Name"
+            value={formData.name}
+            onChange={handleForm}
+            className="w-full mb-3 p-3 rounded-md bg-zinc-800 border border-zinc-600 
+            focus:outline-none focus:ring-1 focus:ring-[#405de6] placeholder-gray-400"
+            required
+          />
+
+          <input
+            type="email"
+            name="email"
+            placeholder="Email address"
+            value={formData.email}
+            onChange={handleForm}
+            className="w-full mb-3 p-3 rounded-md bg-zinc-800 border border-zinc-600 
+            focus:outline-none focus:ring-1 focus:ring-[#405de6] placeholder-gray-400"
+            required
+          />
+
+          <input
+            type="passWord"
+            name="passWord"
+            placeholder="Password"
+            value={formData.passWord}
+            onChange={handleForm}
+            className="w-full mb-4 p-3 rounded-md bg-zinc-800 border border-zinc-600 
+            focus:outline-none focus:ring-1 focus:ring-[#405de6] placeholder-gray-400"
+            required
+          />
+
+          <button
+            type="submit"
+            className="w-full bg-[#405de6] py-2 rounded-md font-semibold hover:bg-[#2d4cc9] transition-all h-10"
+          >
+            Sign Up
+          </button>
+
+          <div className="flex items-center justify-between my-4">
+            <span className="w-1/3 h-[1px] bg-zinc-600"></span>
+            <span className="text-xs text-gray-400">OR</span>
+            <span className="w-1/3 h-[1px] bg-zinc-600"></span>
+          </div>
+
+          <button
+            type="button"
+            className="flex items-center justify-center gap-2 w-full text-[#1877f2] font-semibold hover:underline">
+            <div className="bg-[#1877f2] text-white rounded-full w-5 h-5 flex items-center justify-center font-bold text-sm">
+              f
+            </div>
+            Sign up with Facebook
+          </button>
+        </form>
+
+        <div className="bg-zinc-900 border border-zinc-700 p-4 rounded-md w-full text-center mt-4">
+          <p className="text-gray-300 text-sm">
+            Have an account?{" "}
+            <span
+              onClick={() => navigate("/")}
+              className="text-[#405de6] hover:underline cursor-pointer"
+            >
+              Log in
+            </span>
+          </p>
+        </div>
+      </div>
     </div>
-  )
-}
+  );
+};
 
-export default SignUp
+export default SignUp;
