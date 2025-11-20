@@ -3,6 +3,7 @@ import React, { useState, useReducer,useEffect } from 'react'
 import { fetchCartData } from './CartData.jsx';
 import Sidebar from './Sidebar.jsx'
 import axios from 'axios';
+import { AuthProvider, useAuth } from './context/AuthContext'
 
 const reducer = (state, action) => {
   switch (action.type) {
@@ -33,55 +34,44 @@ const MainPage = () => {
   }, []);
 
   // ✅ ✅ FINAL ONE-TIME LIKE FUNCTION (no unlike)
-  const handleLike = async (id) => {
+ 
+const { token } = useAuth();
+
+const handleLike = async (id) => {
+  if (!token) {
+    alert("Please login first!");
+    return;
+  }
+
   try {
-    let updatedLikes;
+    const res = await axios.post(
+      `http://localhost:4001/like/${id}`,
+      {},
+      {
+        headers: { Authorization: `Bearer ${token}` }
+      }
+    );
 
-    if (likedPosts.has(id)) {
-      // ✅ Unlike → Decrease count in backend
-      const res = await axios.post(`http://localhost:4001/unlike/${id}`);
-      updatedLikes = res.data.likeCount;
+    const updatedLikes = res.data.likeCount;
 
-      // ✅ Update UI
-      setPosts((prev) =>
-        prev.map((p) =>
-          p._id === id ? { ...p, likeCount: updatedLikes } : p
-        )
-      );
+    setPosts(prev =>
+      prev.map(p => p._id === id ? { ...p, likeCount: updatedLikes } : p)
+    );
 
-      // ✅ Remove from likedPosts + localStorage
-      setLikedPosts((prev) => {
-        const updated = new Set(prev);
-        updated.delete(id);
-        localStorage.setItem("likedPosts", JSON.stringify([...updated]));
-        return updated;
-      });
+    setLikedPosts(prev => {
+      const updated = new Set(prev);
+      if (updated.has(id)) updated.delete(id);
+      else updated.add(id);
 
-    } else {
-      // ✅ Like → Increase count in backend
-      const res = await axios.post(`http://localhost:4001/like/${id}`);
-      updatedLikes = res.data.likeCount;
-
-      // ✅ Update UI
-      setPosts((prev) =>
-        prev.map((p) =>
-          p._id === id ? { ...p, likeCount: updatedLikes } : p
-        )
-      );
-
-      // ✅ Add to likedPosts + localStorage
-      setLikedPosts((prev) => {
-        const updated = new Set(prev);
-        updated.add(id);
-        localStorage.setItem("likedPosts", JSON.stringify([...updated]));
-        return updated;
-      });
-    }
+      localStorage.setItem("likedPosts", JSON.stringify([...updated]));
+      return updated;
+    });
 
   } catch (err) {
-    console.error("Error updating like:", err);
+    console.error("LIKE ERROR:", err);
   }
 };
+
 
 
   const handleSave = (postId) => {

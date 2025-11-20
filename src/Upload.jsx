@@ -33,10 +33,20 @@ const Upload = () => {
       console.log("Image URL:", imageUrl);
 
       // 3️⃣ Send metadata to backend
-      await axios.post("http://localhost:4001/upload", {
-        name: Img.name,
-        ImgUrl: imageUrl,
-      });
+     await axios.post(
+  "http://localhost:4001/upload",
+  {
+    name: Img.name,
+    ImgUrl: imageUrl,
+    user: localStorage.getItem("userEmail")
+  },
+  {
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("token")}`
+    }
+  }
+);
+
 
       alert("✅ Image uploaded and saved successfully!");
       setImg(null);
