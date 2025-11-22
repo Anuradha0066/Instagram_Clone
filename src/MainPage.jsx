@@ -44,27 +44,39 @@ const handleLike = async (id) => {
   }
 
   try {
-    const res = await axios.post(
-      `http://localhost:4001/like/${id}`,
-      {},
-      {
-        headers: { Authorization: `Bearer ${token}` }
-      }
-    );
+    const res = await fetch(`http://localhost:4001/like/${id}`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${token}`
+      },
+      body: JSON.stringify({})
+    });
 
-    const updatedLikes = res.data.likeCount;
+    // Unauthorized from backend
+    if (res.status === 401) {
+      console.log("401 from backend");
+      return;
+    }
 
+    const data = await res.json();   // <<<< IMPORTANT
+    console.log("LIKE API DATA:", data);
+
+    const updatedLikes = data.likeCount;
+
+    // Update posts UI
     setPosts(prev =>
-      prev.map(p => p._id === id ? { ...p, likeCount: updatedLikes } : p)
+      prev.map(p =>
+        p._id === id ? { ...p, likeCount: updatedLikes } : p
+      )
     );
 
+    // Update likedPosts
     setLikedPosts(prev => {
-      const updated = new Set(prev);
-      if (updated.has(id)) updated.delete(id);
-      else updated.add(id);
-
-      localStorage.setItem("likedPosts", JSON.stringify([...updated]));
-      return updated;
+      const newSet = new Set(prev);
+      newSet.add(id);
+      localStorage.setItem("likedPosts", JSON.stringify([...newSet]));
+      return newSet;
     });
 
   } catch (err) {

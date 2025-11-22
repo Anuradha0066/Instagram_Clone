@@ -38,14 +38,15 @@ const Upload = () => {
   {
     name: Img.name,
     ImgUrl: imageUrl,
-    user: localStorage.getItem("userEmail")
+    user: JSON.parse(localStorage.getItem("instagram_user")).email
   },
   {
     headers: {
-      Authorization: `Bearer ${localStorage.getItem("token")}`
+      Authorization: `Bearer ${localStorage.getItem("instagram_token")}`
     }
   }
 );
+
 
 
       alert("✅ Image uploaded and saved successfully!");
