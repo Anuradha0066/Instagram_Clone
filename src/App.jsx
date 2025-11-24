@@ -4,6 +4,7 @@ import SignUp from './SignUp'
 import { Route, Routes, Navigate } from 'react-router-dom'
 import MainPage from './MainPage'
 import Upload from './Upload'
+import Search from './Search'
 import { AuthProvider, useAuth } from './context/AuthContext'
 import FetchImages from './FetchImages'
 
@@ -40,6 +41,14 @@ const AppRoutes = () => {
           // <ProtectedRoute>
             <MainPage />
           // </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/search"
+        element={
+          <ProtectedRoute>
+            <Search />
+          </ProtectedRoute>
         }
       />
       <Route
