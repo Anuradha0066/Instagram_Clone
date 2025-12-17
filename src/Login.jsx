@@ -22,7 +22,8 @@ const Login = () => {
         login(res.data.user, res.data.token);
 
         alert("Login successful!");
-        navigate("/home");
+        navigate(`/profile/${res.data.user.username}`);
+
       } else {
         alert(res.data.msg || "Login failed!");
       }

@@ -9,11 +9,11 @@ const imageSchema = new mongoose.Schema({
   },
 
   // LINKING USER SCHEMA
-    user: [{
+    user: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "User",   // reference to user model
         required: true
-    }],
+    },
     likedBy: [{
   type: mongoose.Schema.Types.ObjectId,
   ref: "User",

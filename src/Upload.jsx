@@ -2,9 +2,9 @@ import React, { useState } from "react";
 import axios from "axios";
 import { createClient } from "@supabase/supabase-js";
 
-const supabaseUrl = "https://veepttbflvovmacaykdt.supabase.co";
+const supabaseUrl = "https://zgixahnpyabhkjbwbywm.supabase.co";
 const supabaseKey =
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZlZXB0dGJmbHZvdm1hY2F5a2R0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjE5MTk1NzIsImV4cCI6MjA3NzQ5NTU3Mn0.51ue_QB5JHkfYotf_QFz2RX_cVQyDztAcNGuRDah-rE";
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpnaXhhaG5weWFiaGtqYndieXdtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjUyODY3MzUsImV4cCI6MjA4MDg2MjczNX0.g1AEFO8V_quNLlTIO5Vde0mdhH8ctQcuEr_KrhITLtc";
 const supabase = createClient(supabaseUrl, supabaseKey);
 
 const Upload = () => {
@@ -23,13 +23,13 @@ const Upload = () => {
     try {
       // 1️⃣ Upload image to Supabase
         const { data, error } = await supabase.storage
-  .from("data")
+  .from("insta")
   .upload("insta_images/" + Img.name, Img, { upsert: true });
 
       if (error) throw error;
 
       // 2️⃣ Get public URL
-      const imageUrl = `${supabaseUrl}/storage/v1/object/public/data/insta_images/${Img.name}`;
+      const imageUrl = `${supabaseUrl}/storage/v1/object/public/insta/insta_images/${Img.name}`;
       console.log("Image URL:", imageUrl);
 
       // 3️⃣ Send metadata to backend
@@ -38,7 +38,7 @@ const Upload = () => {
   {
     name: Img.name,
     ImgUrl: imageUrl,
-    user: JSON.parse(localStorage.getItem("instagram_user")).email
+    user: [JSON.parse(localStorage.getItem("instagram_user"))._id], 
   },
   {
     headers: {
@@ -46,6 +46,7 @@ const Upload = () => {
     }
   }
 );
+
 
 
 

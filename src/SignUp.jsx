@@ -89,7 +89,7 @@ const handleSubmit = async (e) => {
           />
 
           <input
-            type="passWord"
+            type="password"
             name="passWord"
             placeholder="Password"
             value={formData.passWord}

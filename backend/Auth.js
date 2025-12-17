@@ -8,7 +8,7 @@ module.exports = function(req, res, next) {
     if (!token) return res.status(401).json({ message: "Login first!" });
 
     try {
-        const decoded = jwt.verify(token, "SECRET123");
+        const decoded = jwt.verify(token, "SECRET_KEY");
         req.user = decoded;   // IMPORTANT: req.user yahi se aata hai
         console.log("decoded",decoded);
         next();

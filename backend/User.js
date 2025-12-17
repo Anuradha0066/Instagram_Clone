@@ -4,8 +4,31 @@ const userSchema = new mongoose.Schema({
   name: { type: String, required: true },
   email: { type: String, required: true, unique: true },
   passWord: { type: String, required: true },
-  role: { type: String, default: "user" }
+
+  username: { type: String, unique: true },
+
+  role: { type: String, default: "user" },
+
+  profileId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Profile"
+  },
+
+  followers: [
+    { type: mongoose.Schema.Types.ObjectId, ref: "User" }
+  ],
+
+  following: [
+    { type: mongoose.Schema.Types.ObjectId, ref: "User" }
+  ],
+
+  // ✅ FIXED: Add posts field
+  posts: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Image"
+    }
+  ]
 });
 
-const User = mongoose.model("User", userSchema);
-module.exports = User;
+module.exports = mongoose.model("User", userSchema);

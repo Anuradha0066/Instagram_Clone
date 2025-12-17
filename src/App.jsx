@@ -5,9 +5,10 @@ import { Route, Routes, Navigate } from 'react-router-dom'
 import MainPage from './MainPage'
 import Upload from './Upload'
 import Search from './Search'
+import Profile from './Profile'
 import { AuthProvider, useAuth } from './context/AuthContext'
 import FetchImages from './FetchImages'
-
+import UserProfile from './UserProfile'
 // Protected Route Component
 const ProtectedRoute = ({ children }) => {
   const { user } = useAuth()
@@ -70,13 +71,25 @@ const AppRoutes = () => {
       />
 
       <Route
-        path="/profile"
-        element={
-          <ProtectedRoute>
-            <div>Profile Page</div>
-          </ProtectedRoute>
-        }
-      />
+  path="/profile"
+  element={
+    // <ProtectedRoute>
+      <Profile /> 
+    // </ProtectedRoute>
+  }
+/>
+
+<Route
+  path="/profile/:username"
+  element={
+    <ProtectedRoute>
+      <Profile />
+    </ProtectedRoute>
+  }
+/>
+ 
+        <Route path="/user/:name" element={<UserProfile />} />
+      
 
       {/* Redirect root to login or home based on auth status */}
       <Route
