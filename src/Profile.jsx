@@ -8,12 +8,14 @@ const Me = () => {
   useEffect(() => {
     const fetchProfile = async () => {
       try {
-        const { data } = await axios.get("http://localhost:4001/me", {
+        // const { data } = await axios.get("http://localhost:4001/me", {
+        const { data } = await axios.get("https://instagram-clone-p244.onrender.com/me", {
           headers: { Authorization: `Bearer ${token}` },
         });
 
         // Fetch posts separately
-        const postRes = await axios.get("http://localhost:4001/my-posts", {
+        // const postRes = await axios.get("http://localhost:4001/my-posts", {
+        const postRes = await axios.get("https://instagram-clone-p244.onrender.com/my-posts", {
           headers: { Authorization: `Bearer ${token}` },
         });
 

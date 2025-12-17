@@ -12,7 +12,8 @@ const UserProfile = () => {
     const fetchUserProfile = async () => {
       try {
         const { data } = await axios.get(
-          `http://localhost:4001/user/${name}`,
+          // `http://localhost:4001/user/${name}`,
+          `https://instagram-clone-p244.onrender.com/user/${name}`,
           {
             headers: { Authorization: `Bearer ${token}` },
           }
@@ -31,7 +32,8 @@ const UserProfile = () => {
   const handleFollow = async () => {
     try {
       await axios.post(
-        `http://localhost:4001/follow/${user._id}`,
+        // `http://localhost:4001/follow/${user._id}`,
+        `https://instagram-clone-p244.onrender.com/follow/${user._id}`,
         {},
         {
           headers: { Authorization: `Bearer ${token}` },

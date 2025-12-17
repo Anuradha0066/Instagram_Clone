@@ -9,12 +9,14 @@ const auth = require("./Auth");
 const Profile = require("./Profile");
 const Comment = require("./comment");
 const Story = require("./story");
+const dotenv = require("dotenv");
+dotenv.config();
 
 const app = express();
 app.use(express.json());
 app.use(cors());
 
-mongoose.connect("mongodb://127.0.0.1:27017/instagram")
+mongoose.connect(process.env.MongoUrl)
   .then(() => console.log("✅ Database connected"))
   .catch((err) => console.log(err));
 

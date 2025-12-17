@@ -21,7 +21,8 @@ const navigate = useNavigate();
 
     try {
       setLoading(true);
-      const res = await axios.get("http://localhost:4001/search", {
+      // const res = await axios.get("http://localhost:4001/search", {
+      const res = await axios.get("https://instagram-clone-p244.onrender.com/search", {
         params: { q: query },
       });
 
@@ -41,7 +42,8 @@ const navigate = useNavigate();
   const toggleFollow = async (userId, index) => {
     try {
       const res = await axios.post(
-        `http://localhost:4001/follow/${userId}`,
+        // `http://localhost:4001/follow/${userId}`,
+        `https://instagram-clone-p244.onrender.com/follow/${userId}`,
         {},
         {
           headers: { Authorization: `Bearer ${token}` },

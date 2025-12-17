@@ -25,7 +25,8 @@ const FollowButton = ({ targetUserId, isFollowing: initialFollowing = false, onC
     try {
       const token = localStorage.getItem("instagram_token");
       const res = await axios.post(
-        `http://localhost:4001/follow/${targetUserId}`,
+        // `http://localhost:4001/follow/${targetUserId}`,
+        `https://instagram-clone-p244.onrender.com/follow/${targetUserId}`,
         {},
         {
           headers: { Authorization: `Bearer ${token}` },
