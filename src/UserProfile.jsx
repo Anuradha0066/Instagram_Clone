@@ -13,7 +13,7 @@ const UserProfile = () => {
       try {
         const { data } = await axios.get(
           // `http://localhost:4001/user/${name}`,
-          `https://instagram-clone-p244.onrender.com/user/${name}`,
+          `https://instagram-clone-1-zlk3.onrender.com/user/${name}`,
           {
             headers: { Authorization: `Bearer ${token}` },
           }
@@ -33,7 +33,7 @@ const UserProfile = () => {
     try {
       await axios.post(
         // `http://localhost:4001/follow/${user._id}`,
-        `https://instagram-clone-p244.onrender.com/follow/${user._id}`,
+        `https://instagram-clone-1-zlk3.onrender.com/follow/${user._id}`,
         {},
         {
           headers: { Authorization: `Bearer ${token}` },

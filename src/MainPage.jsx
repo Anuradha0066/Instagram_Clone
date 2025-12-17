@@ -37,7 +37,7 @@ const MainPage = () => {
   // ✅ Fetch posts from backend
   useEffect(() => {
     // axios.get("http://localhost:4001/upload").then((res) => setPosts(res.data));
-    axios.get("https://instagram-clone-p244.onrender.com/upload").then((res) => setPosts(res.data));
+    axios.get("https://instagram-clone-1-zlk3.onrender.com/upload").then((res) => setPosts(res.data));
   }, []);
 
   // ✅ ✅ FINAL ONE-TIME LIKE FUNCTION (no unlike)
@@ -52,7 +52,7 @@ const handleLike = async (id) => {
 
   try {
       // const res = await fetch(`http://localhost:4001/like/${id}`, {
-    const res = await fetch(`https://instagram-clone-p244.onrender.com/like/${id}`, {
+    const res = await fetch(`https://instagram-clone-1-zlk3.onrender.com/like/${id}`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -99,7 +99,7 @@ const handleComment = async (postId, text) => {
 
   try {
     // const res = await fetch(`http://localhost:4001/comments/${postId}`, {
-    const res = await fetch(`https://instagram-clone-p244.onrender.com/comments/${postId}`, {
+    const res = await fetch(`https://instagram-clone-1-zlk3.onrender.com/comments/${postId}`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -180,7 +180,7 @@ const timeAgo = (date) => {
     const fetchStories = async () => {
       const token = localStorage.getItem("token");
       // const res = await axios.get(`http://localhost:4001/stories`, {
-      const res = await axios.get(`https://instagram-clone-p244.onrender.com/stories`, {
+      const res = await axios.get(`https://instagram-clone-1-zlk3.onrender.com/stories`, {
         headers: { Authorization: token },
       });
       setStories(res.data);
@@ -197,7 +197,7 @@ const timeAgo = (date) => {
 
     await axios.post(
       // `http://localhost:4001/story`,
-      `https://instagram-clone-p244.onrender.com/story`,
+      `https://instagram-clone-1-zlk3.onrender.com/story`,
       { mediaUrl: storyUrl },
       { headers: { Authorization: token } }
     );
@@ -205,7 +205,7 @@ const timeAgo = (date) => {
     setStoryUrl("");
 
     // const res = await axios.get(`http://localhost:4001/stories`, {
-    const res = await axios.get(`https://instagram-clone-p244.onrender.com/stories`, {
+    const res = await axios.get(`https://instagram-clone-1-zlk3.onrender.com/stories`, {
       headers: { Authorization: token },
     });
     setStories(res.data);

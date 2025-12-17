@@ -35,7 +35,7 @@ const Upload = () => {
       // 3️⃣ Send metadata to backend
      await axios.post(
     // "http://localhost:4001/upload",
-  "https://instagram-clone-p244.onrender.com/upload",
+  "https://instagram-clone-1-zlk3.onrender.com/upload",
   {
     name: Img.name,
     ImgUrl: imageUrl,
