@@ -16,7 +16,7 @@ const Login = () => {
 
     try {
       // const res = await axios.post("http://localhost:4001/login", formData);
-      const res = await axios.post("https://instagram-clone-1-zlk3.onrender.com/login", formData);
+      const res = await axios.post("https://instagram-clone-1-d0qb.onrender.com/login", formData);
 
       if (res.data.token) {
         // ✔️ Store in AuthContext (VERY IMPORTANT)

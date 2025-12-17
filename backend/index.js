@@ -16,9 +16,10 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 
-mongoose.connect(process.env.MongoUrl)
+mongoose.connect(process.env.MONGO_URI)
   .then(() => console.log("✅ Database connected"))
   .catch((err) => console.log(err));
+
 
 app.get("/", (req, res) => res.send("Server is running..."));
 
@@ -437,4 +438,8 @@ app.get("/stories", auth, async (req, res) => {
 });
 
 
-app.listen(4001, () => console.log("🚀 Server running on port 4001"));
+const PORT = process.env.PORT || 4001;
+
+app.listen(PORT, () => {
+  console.log(`🚀 Server running on port ${PORT}`);
+});

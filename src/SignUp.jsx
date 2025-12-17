@@ -39,7 +39,7 @@ const handleSubmit = async (e) => {
   e.preventDefault();
   try {
     // const res = await axios.post("http://localhost:4001/api/signUp", formData);
-    const res = await axios.post("https://instagram-clone-1-zlk3.onrender.com/api/signUp", formData);
+    const res = await axios.post("https://instagram-clone-1-d0qb.onrender.com/api/signUp", formData);
     
     alert(res.data.msg);
     navigate("/");
