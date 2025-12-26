@@ -2,8 +2,8 @@ import React, { useState } from "react";
 import axios from "axios";
 import { createClient } from "@supabase/supabase-js";
 
-const API_URL = 'http://localhost:4001';
-// const API_URL = 'https://instagram-clone-1-rfrs.onrender.com'
+// const API_URL = 'http://localhost:4001';
+const API_URL = 'https://instagram-clone-1-rfrs.onrender.com'
 
 const supabaseUrl = "https://zgixahnpyabhkjbwbywm.supabase.co";
 const supabaseKey =

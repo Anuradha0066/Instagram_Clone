@@ -3,8 +3,8 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { io } from "socket.io-client";
 
-const API_URL = 'http://localhost:4001';
-// const API_URL = 'https://instagram-clone-1-rfrs.onrender.com'
+// const API_URL = 'http://localhost:4001';
+ const API_URL = 'https://instagram-clone-1-rfrs.onrender.com'
 const socket = io(`${API_URL}`);
 console.log("Socket:", socket);
 

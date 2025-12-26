@@ -4,8 +4,8 @@ import Sidebar from "./Sidebar.jsx";
 import FollowButton from "./FollowButton.jsx";  // <-- your button
 import { useNavigate } from "react-router-dom";
 
-const API_URL = 'http://localhost:4001';
-// const API_URL = 'https://instagram-clone-1-rfrs.onrender.com'
+// const API_URL = 'http://localhost:4001';
+const API_URL = 'https://instagram-clone-1-rfrs.onrender.com'
 
 const Search = () => {
   const [query, setQuery] = useState("");
