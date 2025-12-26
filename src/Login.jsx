@@ -3,6 +3,8 @@ import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "./context/AuthContext";
 
+const API_URL = 'http://localhost:4001';
+// const API_URL = 'https://instagram-clone-1-rfrs.onrender.com'
 const Login = () => {
   const [formData, setFormData] = useState({ email: "", passWord: "" });
   const navigate = useNavigate();
@@ -15,8 +17,8 @@ const Login = () => {
     e.preventDefault();
 
     try {
-      // const res = await axios.post("http://localhost:4001/login", formData);
-      const res = await axios.post("https://instagram-clone-1-d0qb.onrender.com/login", formData);
+      const res = await axios.post(`${API_URL}/login`, formData);
+      // const res = await axios.post("https://instagram-clone-1-rfrs.onrender.com/login", formData);
 
       if (res.data.token) {
         // ✔️ Store in AuthContext (VERY IMPORTANT)

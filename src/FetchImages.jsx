@@ -9,7 +9,7 @@ const FetchImages = () => {
     const fetchImages = async () => {
       try {
             // const res = await axios.get("http://localhost:4001/upload");
-        const res = await axios.get("https://instagram-clone-1-zlk3.onrender.com/upload");
+        const res = await axios.get("https://instagram-clone-1-rfrs.onrender.com/upload");
         setImages(res.data);
       } catch (err) {
         console.error("Error fetching images:", err);

@@ -9,6 +9,9 @@ const auth = require("./Auth");
 const Profile = require("./Profile");
 const Comment = require("./comment");
 const Story = require("./story");
+const http = require("http");
+const initSocket = require("./socket");
+const Message = require("./Message");
 const dotenv = require("dotenv");
 dotenv.config();
 
@@ -101,6 +104,8 @@ app.post("/login", async (req, res) => {
 });
 
 
+app.use("/chat", require("./chat"));
+
 //--Upload
 app.post("/upload", auth, async (req, res) => {
   try {
@@ -131,7 +136,8 @@ app.post("/upload", auth, async (req, res) => {
 
 app.get("/upload", async (req, res) => {
   try {
-    const images = await Image.find(); 
+    const images = await Image.find() 
+      .populate("user", "username profilePic");
     res.json(images);
   } catch (err) {
     console.error("Error fetching images:", err.message);
@@ -419,7 +425,8 @@ app.post("/story", auth, async (req, res) => {
 
 
 app.get("/stories", auth, async (req, res) => {
-  const me = await User.findById(req.user._id);
+  const me = await User.findById(req.user.id);
+  console.log("me",me);
 
   const allowedUsers = [
     req.user._id,
@@ -431,7 +438,7 @@ app.get("/stories", auth, async (req, res) => {
     user: { $in: allowedUsers },
     expiresAt: { $gt: new Date() }, // not expired
   })
-    .populate("user", "name")
+    .populate("user", "username profilePic")
     .sort({ createdAt: -1 });
 
   res.json(stories);

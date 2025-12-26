@@ -9,6 +9,7 @@ import Profile from './Profile'
 import { AuthProvider, useAuth } from './context/AuthContext'
 import FetchImages from './FetchImages'
 import UserProfile from './UserProfile'
+import ChatPage from './ChatPage'
 // Protected Route Component
 const ProtectedRoute = ({ children }) => {
   const { user } = useAuth()
@@ -52,6 +53,7 @@ const AppRoutes = () => {
           </ProtectedRoute>
         }
       />
+        <Route path="/chat" element={<ChatPage />} />
       <Route
         path="/upload"
         element={

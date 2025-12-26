@@ -5,6 +5,8 @@ import Sidebar from './Sidebar.jsx'
 import axios from 'axios';
 import { AuthProvider, useAuth } from './context/AuthContext'
 
+const API_URL = 'http://localhost:4001';
+// const API_URL = 'https://instagram-clone-1-rfrs.onrender.com'
 const reducer = (state, action) => {
   switch (action.type) {
     case 'UPDATE_SEARCH':
@@ -36,53 +38,54 @@ const MainPage = () => {
 
   // ✅ Fetch posts from backend
   useEffect(() => {
-    // axios.get("http://localhost:4001/upload").then((res) => setPosts(res.data));
-    axios.get("https://instagram-clone-1-zlk3.onrender.com/upload").then((res) => setPosts(res.data));
+    axios.get(`${API_URL}/upload`).then((res) => setPosts(res.data));
+    // axios.get("{API_URL}/upload").then((res) => setPosts(res.data));
   }, []);
 
   // ✅ ✅ FINAL ONE-TIME LIKE FUNCTION (no unlike)
  
 const { token } = useAuth();
 
-const handleLike = async (id) => {
+const handleLike = async (postId) => {
   if (!token) {
     alert("Please login first!");
     return;
   }
 
   try {
-      // const res = await fetch(`http://localhost:4001/like/${id}`, {
-    const res = await fetch(`https://instagram-clone-1-zlk3.onrender.com/like/${id}`, {
+    const res = await fetch(`${API_URL}/like/${postId}`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        "Authorization": `Bearer ${token}`
+        Authorization: `Bearer ${token}`,
       },
-      body: JSON.stringify({})
+      body: JSON.stringify({}),
     });
 
-    // Unauthorized from backend
-    if (res.status === 401) {
-      console.log("401 from backend");
-      return;
-    }
+    const data = await res.json();
 
-    const data = await res.json();   // <<<< IMPORTANT
-    console.log("LIKE API DATA:", data);
+    // Update posts array
+     setPosts(prev =>
+    prev.map(p =>
+      p._id === postId
+  ?{ 
+  ...p, 
+  likeCount: likedPosts.has(postId) 
+    ? (p.likeCount || 0) - 1 
+    : (p.likeCount || 0) + 1 
+}
+        : p
+    )
+  );
 
-    const updatedLikes = data.likeCount;
-
-    // Update posts UI
-    setPosts(prev =>
-      prev.map(p =>
-        p._id === id ? { ...p, likeCount: updatedLikes } : p
-      )
-    );
-
-    // Update likedPosts
+    // Update likedPosts set
     setLikedPosts(prev => {
       const newSet = new Set(prev);
-      newSet.add(id);
+      if (prev.has(postId)) {
+        newSet.delete(postId);
+      } else {
+        newSet.add(postId);
+      }
       localStorage.setItem("likedPosts", JSON.stringify([...newSet]));
       return newSet;
     });
@@ -93,13 +96,14 @@ const handleLike = async (id) => {
 };
 
 
+
 const handleComment = async (postId, text) => {
   if (!token) return alert("Login first!");
   if (!text || text.trim() === "") return; // Prevent empty comments
 
   try {
-    // const res = await fetch(`http://localhost:4001/comments/${postId}`, {
-    const res = await fetch(`https://instagram-clone-1-zlk3.onrender.com/comments/${postId}`, {
+    const res = await fetch(`${API_URL}/comments/${postId}`, {
+    // const res = await fetch(`https://instagram-clone-1-rfrs.onrender.com/comments/${postId}`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -178,44 +182,63 @@ const timeAgo = (date) => {
 
    useEffect(() => {
     const fetchStories = async () => {
-      const token = localStorage.getItem("token");
-      // const res = await axios.get(`http://localhost:4001/stories`, {
-      const res = await axios.get(`https://instagram-clone-1-zlk3.onrender.com/stories`, {
-        headers: { Authorization: token },
-      });
-      setStories(res.data);
-    };
+      const token = localStorage.getItem("instagram_token");
+      console.log("Fetching localstorage token:", token);
+      if (!token) return console.log("No token found!");
 
+    try {
+      const res = await axios.get(`${API_URL}/stories`, {
+      // const res = await axios.get(`https://instagram-clone-1-rfrs.onrender.com/stories`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      console.log("Stories fetched:", res.data);
+      setStories(res.data);
+    } catch (err) {
+      console.error("Fetch stories error:", err.response?.data || err.message);
+    }
+  };
     fetchStories();
   }, []);
 
   // upload story
   const uploadStory = async () => {
-    if (!storyUrl) return alert("Enter image URL");
+    if (!storyUrl){
+       alert("Enter image URL");
+      return;
+    }
+    const token = localStorage.getItem("instagram_token");
+if (!token) return alert("Please login first!");
 
-    const token = localStorage.getItem("token");
-
-    await axios.post(
-      // `http://localhost:4001/story`,
-      `https://instagram-clone-1-zlk3.onrender.com/story`,
-      { mediaUrl: storyUrl },
-      { headers: { Authorization: token } }
+  try {
+    const res = await axios.post(
+      `${API_URL}/story`,
+      // `https://instagram-clone-1-rfrs.onrender.com/story`,
+        { mediaUrl: storyUrl },
+      { headers: { Authorization: `Bearer ${token}` } }
     );
+
+    console.log("Story uploaded:", res.data);
 
     setStoryUrl("");
 
-    // const res = await axios.get(`http://localhost:4001/stories`, {
-    const res = await axios.get(`https://instagram-clone-1-zlk3.onrender.com/stories`, {
-      headers: { Authorization: token },
+    
+
+ const storiesRes = await axios.get(`${API_URL}/stories`, {
+    // const res = await axios.get(`https://instagram-clone-1-rfrs.onrender.com/stories`, {
+     headers: { Authorization: `Bearer ${token}` },
     });
-    setStories(res.data);
-  };
+
+    setStories(storiesRes.data);
+  } catch (err) {
+    console.error("Upload story error:", err.response?.data || err.message);
+  }
+};
 
   return (
-    <div className="bg-black min-h-screen flex">
-      <Sidebar />
+    <div className="bg-black min-h-screen flex flex-col md:flex-row">
+  <Sidebar className="w-full md:w-[245px]" />
       {/* Main Content */}
-      <div className="flex-1 ml-[245px] flex flex-col items-center overflow-y-auto">
+      <div className="flex-1 ml-[245px] flex flex-col items-center overflow-y-auto px-2 md:px-4">
         <div className="pt-8 flex flex-col items-center w-full max-w-[470px] px-4">
           {/* ================= STORIES ================= */}
           <div className="bg-[#121212] p-3 rounded-lg">
@@ -245,7 +268,7 @@ const timeAgo = (date) => {
               </div>
 
               {/* OTHER STORIES */}
-              {stories.map((story) => (
+              {Array.isArray(stories) && stories.map((story) => (
                 <div
                   key={story._id}
                   onClick={() => setActiveStory(story)}
@@ -255,11 +278,11 @@ const timeAgo = (date) => {
                     <img
                       src={story.mediaUrl}
                       className="h-14 w-14 rounded-full object-cover"
-                      alt=""
+                      alt="story"
                     />
                   </div>
                   <p className="text-white text-xs mt-1">
-                    {story.user.name}
+                    {story.user?.name||story.username|| "Story"}
                   </p>
                 </div>
               ))}
@@ -270,10 +293,24 @@ const timeAgo = (date) => {
             <p className="text-gray-400 text-center">Loading...</p>
           )}
 
-
+ {activeStory && (
+        <div className="fixed top-0 left-0 w-full h-full bg-black flex items-center justify-center z-50">
+          <img
+            src={activeStory.mediaUrl}
+            className="max-h-full max-w-full object-contain"
+            alt="story"
+          />
+          <button
+            className="absolute top-4 right-4 text-white text-2xl"
+            onClick={() => setActiveStory(null)}
+          >
+            ✕
+          </button>
+        </div>
+      )}
           {/* Posts */}
           <div className="w-full space-y-4">
-            {posts.map((post, index) => (
+            {Array.isArray(posts) && posts.map((post, index) => (
               <div key={index} className="bg-[#121212] rounded-lg overflow-hidden">
                 {/* Post Header */}
                 <div className="flex items-center justify-between p-3">
@@ -288,7 +325,7 @@ const timeAgo = (date) => {
                       </div>
                     </div>
                     <div>
-                      <p className="text-white text-sm font-semibold">{post.name}</p>
+                      <p className="text-white text-sm font-semibold">{post.user?.username || "Unknown User"}</p>
                       <p className="text-gray-400 text-xs">Original audio</p>
                     </div>
                   </div>

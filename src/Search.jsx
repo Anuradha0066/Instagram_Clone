@@ -4,6 +4,9 @@ import Sidebar from "./Sidebar.jsx";
 import FollowButton from "./FollowButton.jsx";  // <-- your button
 import { useNavigate } from "react-router-dom";
 
+const API_URL = 'http://localhost:4001';
+// const API_URL = 'https://instagram-clone-1-rfrs.onrender.com'
+
 const Search = () => {
   const [query, setQuery] = useState("");
   const [results, setResults] = useState([]);
@@ -21,8 +24,8 @@ const navigate = useNavigate();
 
     try {
       setLoading(true);
-      // const res = await axios.get("http://localhost:4001/search", {
-      const res = await axios.get("https://instagram-clone-1-zlk3.onrender.com/search", {
+      const res = await axios.get(`${API_URL}/search`, {
+      // const res = await axios.get("https://instagram-clone-1-rfrs.onrender.com/search", {
         params: { q: query },
       });
 
@@ -42,8 +45,8 @@ const navigate = useNavigate();
   const toggleFollow = async (userId, index) => {
     try {
       const res = await axios.post(
-        // `http://localhost:4001/follow/${userId}`,
-        `https://instagram-clone-1-zlk3.onrender.com/follow/${userId}`,
+        `${API_URL}/follow/${userId}`,
+        // `https://instagram-clone-1-rfrs.onrender.com/follow/${userId}`,
         {},
         {
           headers: { Authorization: `Bearer ${token}` },

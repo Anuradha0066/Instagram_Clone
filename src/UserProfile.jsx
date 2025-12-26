@@ -2,6 +2,9 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 
+const API_URL = 'http://localhost:4001';
+// const API_URL = 'https://instagram-clone-1-rfrs.onrender.com'
+
 const UserProfile = () => {
   const { name } = useParams();
   const [user, setUser] = useState(null);
@@ -12,8 +15,8 @@ const UserProfile = () => {
     const fetchUserProfile = async () => {
       try {
         const { data } = await axios.get(
-          // `http://localhost:4001/user/${name}`,
-          `https://instagram-clone-1-zlk3.onrender.com/user/${name}`,
+          `${API_URL}/user/${name}`,
+          // `https://instagram-clone-1-rfrs.onrender.com/user/${name}`,
           {
             headers: { Authorization: `Bearer ${token}` },
           }
@@ -32,8 +35,8 @@ const UserProfile = () => {
   const handleFollow = async () => {
     try {
       await axios.post(
-        // `http://localhost:4001/follow/${user._id}`,
-        `https://instagram-clone-1-zlk3.onrender.com/follow/${user._id}`,
+        `${API_URL}/follow/${user._id}`,
+        // `https://instagram-clone-1-rfrs.onrender.com/follow/${user._id}`,
         {},
         {
           headers: { Authorization: `Bearer ${token}` },

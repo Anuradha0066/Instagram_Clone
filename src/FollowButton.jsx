@@ -1,6 +1,9 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 
+const API_URL = 'http://localhost:4001';
+// const API_URL = 'https://instagram-clone-1-rfrs.onrender.com'
+
 /**
  * Props:
  * - targetUserId: id of the user to follow/unfollow
@@ -25,14 +28,14 @@ const FollowButton = ({ targetUserId, isFollowing: initialFollowing = false, onC
     try {
       const token = localStorage.getItem("instagram_token");
       const res = await axios.post(
-        // `http://localhost:4001/follow/${targetUserId}`,
-        `https://instagram-clone-1-zlk3.onrender.com/follow/${targetUserId}`,
+        `${API_URL}/follow/${targetUserId}`,
+        // `https://instagram-clone-1-rfrs.onrender.com/follow/${targetUserId}`,
         {},
         {
           headers: { Authorization: `Bearer ${token}` },
         }
       );
-
+       console.log("Follow response:", res);
       // backend returns message: "Followed" or "Unfollowed"
       const msg = res?.data?.message || "";
       const nowFollowing = msg === "Followed";

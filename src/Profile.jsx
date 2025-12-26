@@ -4,18 +4,20 @@ import axios from "axios";
 const Me = () => {
   const [user, setUser] = useState(null);
   const token = localStorage.getItem("instagram_token");
+  const API_URL = 'http://localhost:4001';
+// const API_URL = 'https://instagram-clone-1-rfrs.onrender.com'
 
-  useEffect(() => {
+useEffect(() => {
     const fetchProfile = async () => {
       try {
-        // const { data } = await axios.get("http://localhost:4001/me", {
-        const { data } = await axios.get("https://instagram-clone-1-zlk3.onrender.com/me", {
+        const { data } = await axios.get(`${API_URL}/me`, {
+        // const { data } = await axios.get("https://instagram-clone-1-rfrs.onrender.com/me", {
           headers: { Authorization: `Bearer ${token}` },
         });
 
         // Fetch posts separately
-        // const postRes = await axios.get("http://localhost:4001/my-posts", {
-        const postRes = await axios.get("https://instagram-clone-1-zlk3.onrender.com/my-posts", {
+        const postRes = await axios.get(`${API_URL}/my-posts`, {
+        // const postRes = await axios.get("https://instagram-clone-1-rfrs.onrender.com/my-posts", {
           headers: { Authorization: `Bearer ${token}` },
         });
 
@@ -31,6 +33,7 @@ const Me = () => {
   if (!user) {
     return <p className="text-white">Loading...</p>;
   }
+console.log(user);
 
   return (
     <div className="text-white p-6">
@@ -64,7 +67,6 @@ const Me = () => {
           <p className="mt-2">{user.bio || "No bio added yet"}</p>
         </div>
       </div>
-
       <hr className="my-6 border-gray-600" />
 
       {/* Posts Section */}

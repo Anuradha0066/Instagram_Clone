@@ -2,6 +2,9 @@ import React, { useState } from "react";
 import axios from "axios";
 import { createClient } from "@supabase/supabase-js";
 
+const API_URL = 'http://localhost:4001';
+// const API_URL = 'https://instagram-clone-1-rfrs.onrender.com'
+
 const supabaseUrl = "https://zgixahnpyabhkjbwbywm.supabase.co";
 const supabaseKey =
   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpnaXhhaG5weWFiaGtqYndieXdtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjUyODY3MzUsImV4cCI6MjA4MDg2MjczNX0.g1AEFO8V_quNLlTIO5Vde0mdhH8ctQcuEr_KrhITLtc";
@@ -34,8 +37,8 @@ const Upload = () => {
 
       // 3️⃣ Send metadata to backend
      await axios.post(
-    // "http://localhost:4001/upload",
-  "https://instagram-clone-1-zlk3.onrender.com/upload",
+    `${API_URL}/upload`,
+  // "https://instagram-clone-1-rfrs.onrender.com/upload",
   {
     name: Img.name,
     ImgUrl: imageUrl,
