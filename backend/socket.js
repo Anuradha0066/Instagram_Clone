@@ -20,6 +20,7 @@ module.exports = function initSocket(server) {
     socket.on("sendMessage", async ({ sender, receiver, text }) => {
       if (!sender || !receiver || !text) return;
 
+      console.log("Message from", sender, "to", receiver, ":", text);
       const msg = await Message.create({
         sender,
         receiver,
