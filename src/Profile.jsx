@@ -4,8 +4,8 @@ import axios from "axios";
 const Me = () => {
   const [user, setUser] = useState(null);
   const token = localStorage.getItem("instagram_token");
-  const API_URL = 'http://localhost:4001';
-// const API_URL = 'https://instagram-clone-1-rfrs.onrender.com'
+  // const API_URL = 'http://localhost:4001';
+const API_URL = 'https://instagram-clone-1-rfrs.onrender.com'
 
 useEffect(() => {
     const fetchProfile = async () => {

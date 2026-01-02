@@ -5,8 +5,8 @@ import ChatUserList from "./ChatUserList";
  import ChatWindow from "./ChatWindow";
 
 
- const API_URL = 'http://localhost:4001';
-//  const API_URL = 'https://instagram-clone-1-rfrs.onrender.com'
+//  const API_URL = 'http://localhost:4001';
+ const API_URL = 'https://instagram-clone-1-rfrs.onrender.com'
  
 
 const ChatPage = () => {

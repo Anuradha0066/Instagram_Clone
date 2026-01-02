@@ -5,8 +5,8 @@ import Sidebar from './Sidebar.jsx'
 import axios from 'axios';
 import { AuthProvider, useAuth } from './context/AuthContext'
 
-const API_URL = 'http://localhost:4001';
-// const API_URL = 'https://instagram-clone-1-rfrs.onrender.com'
+// const API_URL = 'http://localhost:4001';
+const API_URL = 'https://instagram-clone-1-rfrs.onrender.com'
 const reducer = (state, action) => {
   switch (action.type) {
     case 'UPDATE_SEARCH':

@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 
-const API_URL = 'http://localhost:4001';
-//  const API_URL = 'https://instagram-clone-1-rfrs.onrender.com'
+// const API_URL = 'http://localhost:4001';
+const API_URL = 'https://instagram-clone-1-rfrs.onrender.com'
 
 /**
  * Props:

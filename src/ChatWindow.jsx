@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 
-const API_URL = "http://localhost:4001";
-
+// const API_URL = "http://localhost:4001";
+const API_URL = "https://instagram-clone-1-rfrs.onrender.com";
 const formatTime = (date) => {
   if (!date) return "";
   return new Date(date).toLocaleTimeString("en-IN", {
