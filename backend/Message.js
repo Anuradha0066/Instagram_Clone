@@ -15,12 +15,13 @@ const messageSchema = new mongoose.Schema({
         type:String,
         required:true,
     },
+    tempId: { type: String },
     seen:{
         type:Boolean,
         default:false
     },
 
 },
-{timestamp:true})
-
+{ timestamps: true }
+)
 module.exports=mongoose.model("Message",messageSchema)

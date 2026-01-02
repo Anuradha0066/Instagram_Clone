@@ -2,8 +2,8 @@ import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
-// const API_URL = 'http://localhost:4001';
-const API_URL = 'https://instagram-clone-1-rfrs.onrender.com'
+const API_URL = 'http://localhost:4001';
+// const API_URL = 'https://instagram-clone-1-rfrs.onrender.com'
 
 const SignUp = () => {
   const [formData, setFormData] = useState({

@@ -1,16 +1,29 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import { io } from "socket.io-client";
 import ChatUserList from "./ChatUserList";
  import ChatWindow from "./ChatWindow";
 
 
-//  const API_URL = 'http://localhost:4001';
- const API_URL = 'https://instagram-clone-1-rfrs.onrender.com'
+ const API_URL = 'http://localhost:4001';
+//  const API_URL = 'https://instagram-clone-1-rfrs.onrender.com'
  
+
 const ChatPage = () => {
   const [users, setUsers] = useState([]);
   const [selectedUser, setSelectedUser] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [socket, setSocket] = useState(null);
+
+
+  useEffect(() => {
+  const newSocket = io(API_URL);
+  setSocket(newSocket);
+  
+  return () => newSocket.disconnect();
+}, []);
+
+
 
   useEffect(() => {
     const token = localStorage.getItem("instagram_token");
@@ -65,7 +78,7 @@ console.log("Fetching users with token:", token);
             Select a user to start chatting
           </div>
         ) : (
-          <ChatWindow selectedUser={selectedUser} />
+<ChatWindow selectedUser={selectedUser} socket={socket} />  // ✅ socket pass!
         )}
       </div>
 

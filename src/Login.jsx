@@ -3,8 +3,8 @@ import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "./context/AuthContext";
 
-// const API_URL = 'http://localhost:4001';
-const API_URL = 'https://instagram-clone-1-rfrs.onrender.com'
+const API_URL = 'http://localhost:4001';
+// const API_URL = 'https://instagram-clone-1-rfrs.onrender.com'
 const Login = () => {
   const [formData, setFormData] = useState({ email: "", passWord: "" });
   const navigate = useNavigate();
