@@ -17,7 +17,11 @@ dotenv.config();
 
 const app = express();
 app.use(express.json());
-app.use(cors());
+// Backend
+app.use(cors({
+  origin: "https://anuradha0066.github.io",
+  credentials: true
+}))
 
 mongoose.connect(process.env.MONGO_URI)
   .then(() => console.log("✅ Database connected"))
